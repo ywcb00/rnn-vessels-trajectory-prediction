@@ -1,0 +1,24 @@
+[project]
+name = "rnn-vessels-trajectory-prediction"
+version = "0.1.0"
+description = "RNN Application of Coordinate Systems for Vessel Trajectory Prediction"
+authors = [
+    {name = "ywcb00",email = "ywcb00@ywcb.org>"},
+    {name = "RobJur",email = "<32467689+RobJur@users.noreply.github.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas (>=3.0.5,<4.0.0)",
+    "matplotlib (>=3.11.2,<4.0.0)",
+    "seaborn (>=0.13.2,<0.14.0)",
+    "pyproj (>=3.8.0,<4.0.0)",
+    "scikit-learn (>=1.9.1,<2.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
