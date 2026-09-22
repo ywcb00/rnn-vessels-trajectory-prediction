@@ -74,23 +74,26 @@ del path, all_files, frames, filename, p
     2. REGION FILTER
 """
 
+data = df
+del df
+
 # boundary box
-westbc = 12.00
-eastbc = 15.00
-northbc = 56.00
-southbc = 54.00
+# westbc = 12.00
+# eastbc = 15.00
+# northbc = 56.00
+# southbc = 54.00
 
 # filter by region
-data = df.loc[df['Longitude'] >= westbc]
-data = data.loc[data['Longitude'] <= eastbc]
-data = data.loc[data['Latitude'] >= southbc]
-data = data.loc[data['Latitude'] <= northbc]
+# data = data.loc[data['Longitude'] >= westbc]
+# data = data.loc[data['Longitude'] <= eastbc]
+# data = data.loc[data['Latitude'] >= southbc]
+# data = data.loc[data['Latitude'] <= northbc]
 
 # filter by vessel type
 data = data.loc[data['Ship type'] == 'Cargo']
 
 # Remove temp variables from workspace
-del westbc, eastbc, northbc, southbc, df
+# del westbc, eastbc, northbc, southbc, df
 
 
 """
@@ -139,7 +142,7 @@ del temp, vessels, vessel
 """
 
 # select interested features
-data = data[["MMSI", "DateTime", "# Timestamp", "Latitude", "Longitude", "SOG", "Heading", "DateDiff", "dLat/dt", "dLong/dt"]]
+data = data[["MMSI", "DateTime", "# Timestamp", "Latitude", "Longitude", "SOG", "Heading", "DateDiff", "dLat/dt", "dLong/dt", "distance"]]
 
 data = data.loc[data['SOG'] != 0] # (speed = 0)
 data.isnull().sum().sum()   # (nan values)
@@ -182,29 +185,29 @@ del corr_matrix
 """
 
 # main sequence variables
-seq_input_length = 30;
-seq_output_length = 20;
-seq_length = seq_input_length+seq_output_length
-window_size = seq_length // 2
+# seq_input_length = 30;
+# seq_output_length = 20;
+# seq_length = seq_input_length+seq_output_length
+# window_size = seq_length // 2
 
-# [1,2,3,4,5,6,7,8,9] sequence example if seq length 4 with 2 steps window size
-# [1,2,3,4]
-# [3,4,5,6]
-# [5,6,7,8]
-# . . .
+# # [1,2,3,4,5,6,7,8,9] sequence example if seq length 4 with 2 steps window size
+# # [1,2,3,4]
+# # [3,4,5,6]
+# # [5,6,7,8]
+# # . . .
 
-seq = []
-for i in range(0, len(data) - seq_length + 1, window_size):
-    temp = data[i: i + seq_length].values
-    # check if all sequences hold only one MMSI (first == last)
-    if(temp[0,0] == temp[-1,0]):
-        seq.append(temp)
+# seq = []
+# for i in range(0, len(data) - seq_length + 1, window_size):
+#     temp = data[i: i + seq_length].values
+#     # check if all sequences hold only one MMSI (first == last)
+#     if(temp[0,0] == temp[-1,0]):
+#         seq.append(temp)
         
-# transformation
-seq = np.dstack(seq)
-seq = np.rollaxis(seq,-1)
+# # transformation
+# seq = np.dstack(seq)
+# seq = np.rollaxis(seq,-1)
 
-# mix the data
-seq = shuffle(seq)
+# # mix the data
+# seq = shuffle(seq)
 
-np.save("sequences.npy", seq)
+# np.save("sequences.npy", seq)
